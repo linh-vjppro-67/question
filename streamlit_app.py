@@ -38,7 +38,7 @@ def save_to_github(account, final_result, history, failed):
     res = requests.put(url, headers=headers, json=payload)
     
     if res.status_code in [200, 201]:
-        st.success(f"💾 Đã lưu kết quả tại `results/{filename}`")
+        st.success(f"💾 Đã lưu kết quả tại results/{filename}")
     else:
         st.error(f"❌ Không thể lưu kết quả lên GitHub. Chi tiết: {res.text}")
 
@@ -126,7 +126,7 @@ class AdaptiveTestSession:
             "failed": self.failed,
             "answer_history": self.answer_history[-1] if self.answer_history else {}
         }
-
+    
     def _update_state_after_answer_middle(self, is_correct):
 
         if len(self.answer_history) == 1:
@@ -648,7 +648,7 @@ elif st.session_state["session"].is_finished:
         # 💾 Lưu local file
         try:
             filepath = save_result_to_file(account, final_result)
-            st.info(f"💾 Kết quả đã được lưu tại: `{filepath}`")
+            st.info(f"💾 Kết quả đã được lưu tại: {filepath}")
         except Exception as e:
             st.error(f"❌ Lưu file cục bộ thất bại: {e}")
 
