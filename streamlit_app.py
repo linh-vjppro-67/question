@@ -648,7 +648,7 @@ elif st.session_state["session"].is_finished:
         # 💾 Lưu local file
         try:
             filepath = save_result_to_file(account, final_result)
-            st.info(f"💾 Kết quả đã được lưu tại: `{filepath}`")
+            # st.info(f"💾 Kết quả đã được lưu tại: `{filepath}`")
         except Exception as e:
             st.error(f"❌ Lưu file cục bộ thất bại: {e}")
 
