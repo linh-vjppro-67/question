@@ -1,0 +1,2702 @@
+[
+    {
+        "id": "1",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "Which design pattern is commonly used in React for managing global state in a scalable manner?",
+        "options": [
+            {
+                "description": "Singleton",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Observer",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Factory",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Decorator",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "2",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "In the context of React, what is the main advantage of using the Context API over prop drilling?",
+        "options": [
+            {
+                "description": "Improved component performance",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Simplified code structure by avoiding deeply nested props",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Easier integration with third-party libraries",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Automatic state synchronization with server",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "3",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "Which of the following is a characteristic of a Higher-Order Component (HOC) in React?",
+        "options": [
+            {
+                "description": "It returns a new React component",
+                "isAnswerKey": true
+            },
+            {
+                "description": "It is a component lifecycle method",
+                "isAnswerKey": false
+            },
+            {
+                "description": "It is used to manage component state",
+                "isAnswerKey": false
+            },
+            {
+                "description": "It is a React hook for side effects",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "4",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "When would you prefer using React.memo over useMemo?",
+        "options": [
+            {
+                "description": "To memoize complex calculations",
+                "isAnswerKey": false
+            },
+            {
+                "description": "To prevent re-rendering of functional components with the same props",
+                "isAnswerKey": true
+            },
+            {
+                "description": "To optimize rendering of large lists",
+                "isAnswerKey": false
+            },
+            {
+                "description": "To handle side-effects in component lifecycle",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "5",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "Which of the following best describes a React Portal?",
+        "options": [
+            {
+                "description": "A way to create a new React application",
+                "isAnswerKey": false
+            },
+            {
+                "description": "A method to inject a component's children into a different part of the DOM tree",
+                "isAnswerKey": true
+            },
+            {
+                "description": "A function to manage component state",
+                "isAnswerKey": false
+            },
+            {
+                "description": "A tool for building server-side rendered applications",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "6",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "Consider the following code snippet. What issue might arise from using this React component?\n\n```jsx\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    const interval = setInterval(() => {\n      setCount(count + 1);\n    }, 1000);\n    return () => clearInterval(interval);\n  }, []);\n  return <h1>{count}</h1>;\n}\n```\n",
+        "options": [
+            {
+                "description": "Memory leak due to not clearing interval",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Count state won't update correctly over time",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Component will not render because of missing dependencies",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useEffect will not run because of incorrect dependency array",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "7",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "What is a potential issue with the following useEffect hook?\n\n```jsx\nuseEffect(() => {\n  const subscription = someAPI.subscribe(() => {\n    setState(true);\n  });\n  return () => {\n    subscription.unsubscribe();\n  };\n}, [someAPI]);\n```\n",
+        "options": [
+            {
+                "description": "The subscription may cause a memory leak if not unsubscribed",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The effect will not clean up properly if someAPI changes",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The state will not update correctly within the subscription",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The effect will run infinitely leading to performance issues",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "8",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "In the following React component, what is a potential performance issue?\n\n```jsx\nfunction ExpensiveComponent({ data }) {\n  const processedData = useMemo(() => {\n    return data.map(item => item.value * 2);\n  }, [data]);\n  return <div>{processedData.join(', ')}</div>;\n}\n```\n",
+        "options": [
+            {
+                "description": "The useMemo hook is unnecessary and adds overhead",
+                "isAnswerKey": false
+            },
+            {
+                "description": "If data is a new array each render, useMemo will recompute every time",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The component will not re-render on data change",
+                "isAnswerKey": false
+            },
+            {
+                "description": "There is no potential performance issue",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "9",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "In React, which of the following is a common cause of a memory leak?",
+        "options": [
+            {
+                "description": "Using React.memo without providing a comparison function",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Forgetting to remove event listeners in useEffect cleanup",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Using useState to manage component state",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Using useContext in a component",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "10",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "What is a potential issue with this asynchronous data fetching pattern in a React component?\n\n```jsx\nuseEffect(() => {\n  let isMounted = true;\n  fetchData().then(data => {\n    if (isMounted) {\n      setData(data);\n    }\n  });\n  return () => {\n    isMounted = false;\n  };\n}, []);\n```\n",
+        "options": [
+            {
+                "description": "The fetchData function will not complete due to incorrect return",
+                "isAnswerKey": false
+            },
+            {
+                "description": "isMounted is not necessary, causing redundant checks",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Potential for setting state on an unmounted component",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Data will not be fetched each time the component mounts",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "11",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "Given the following React component, how can you improve its performance?\n\n```jsx\nfunction List({ items }) {\n  return (\n    <ul>\n      {items.map(item => (\n        <li key={item.id}>{item.name}</li>\n      ))}\n    </ul>\n  );\n}\n```\n",
+        "options": [
+            {
+                "description": "Use React.memo to memoize the List component",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use useMemo to memoize the items array",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use a unique key for each item to prevent unnecessary re-renders",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Use shouldComponentUpdate lifecycle method",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "12",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "How can you handle error boundaries in a React application?",
+        "options": [
+            {
+                "description": "Use try/catch blocks within lifecycle methods",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Implement getDerivedStateFromError and componentDidCatch in a class component",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Use error boundaries within functional components using useState",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Create a separate service to log errors",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "13",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "What is a suitable approach to optimize a React application to minimize re-renders?",
+        "options": [
+            {
+                "description": "Avoid using React.memo and always recompute components",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use useCallback and useMemo hooks to memoize functions and values",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Always use class components instead of functional components",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use inline functions in JSX for event handlers",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "14",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "What is the main benefit of using lazy loading for React components?",
+        "options": [
+            {
+                "description": "It ensures all components are loaded before rendering the page",
+                "isAnswerKey": false
+            },
+            {
+                "description": "It improves initial load time by splitting the code into smaller chunks",
+                "isAnswerKey": true
+            },
+            {
+                "description": "It allows components to be pre-loaded before user interaction",
+                "isAnswerKey": false
+            },
+            {
+                "description": "It guarantees that components are always up-to-date with the latest version",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "15",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "How can you handle side-effects in a React component functionally?",
+        "options": [
+            {
+                "description": "Use lifecycle methods like componentDidMount",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use the useEffect hook",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Use Redux middleware",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use async/await within the component body",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "16",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "Given the following component, how can you refactor it to avoid unnecessary re-rendering?\n\n```jsx\nfunction Parent({ data }) {\n  return <Child data={data} />;\n}\n\nfunction Child({ data }) {\n  // Complex calculations\n  return <div>{data.value}</div>;\n}\n```\n",
+        "options": [
+            {
+                "description": "Use useMemo in the Parent component",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Wrap the Child component with React.memo",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Convert Child into a class component",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use Context API to pass data",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "17",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "How would you approach refactoring the following code to improve readability and maintainability?\n\n```jsx\nfunction App() {\n  return (\n    <div>\n      <Header />\n      <MainContent />\n      <Footer />\n    </div>\n  );\n}\n```\n",
+        "options": [
+            {
+                "description": "Use inline styles for each component",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Break down MainContent into smaller components",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Convert App into a class component",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Remove the Footer component",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "18",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "Which technique would you use to handle a large-scale refactor to migrate from Redux to Context API?",
+        "options": [
+            {
+                "description": "Refactor the entire codebase in a single commit",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use a feature-flag strategy to switch between Redux and Context incrementally",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Implement both Redux and Context API simultaneously across all components",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Remove Redux and replace with Context API in the main App component only",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "19",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "In a large codebase, which approach is most effective for managing technical debt?",
+        "options": [
+            {
+                "description": "Postpone addressing technical debt until the end of a project",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Continuously refactor and pay down debt during normal development cycles",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Address technical debt only when performance issues arise",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Ignore technical debt as it does not affect functionality",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "20",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "Which strategy can help in managing component reusability and consistency across a React application?",
+        "options": [
+            {
+                "description": "Use inline styles for all components",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Develop a component library with shared styles and utilities",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Embed components directly into pages without abstraction",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Create separate stylesheets for each component",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "21",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "How would you address a systemic issue of inconsistent state management across teams in a React application?",
+        "options": [
+            {
+                "description": "Allow each team to choose their preferred state management solution",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Standardize on a single state management library and implement training sessions",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Remove state management libraries and use native React state only",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Implement a new state management solution from scratch",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "22",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "Which pattern would you enforce to improve component communication and prevent prop drilling in a large React application?",
+        "options": [
+            {
+                "description": "Use Redux for all state management needs",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Implement the Context API for global state sharing",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Pass props through every component explicitly",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use query parameters for data passing",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "23",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "What is an effective way to ensure consistent error handling across a React application?",
+        "options": [
+            {
+                "description": "Implement error boundaries only at the root component level",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use a centralized error handling service or middleware",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Handle errors individually in each component",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Ignore non-critical errors to improve performance",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "24",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "In a large React application, how can you ensure that the state management solution is scalable and maintainable across multiple teams?",
+        "options": [
+            {
+                "description": "Each team uses a different state management library",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Adopt a monolithic repository for centralizing state management",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Implement a modular state management architecture with clear guidelines",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Allow teams to implement their own state management solutions",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "25",
+        "skill": "reactjs",
+        "category": "framework",
+        "seniority": "senior",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "You discover that your React application has performance issues due to unnecessary re-renders. What is a systemic approach to address this issue across the entire application?",
+        "options": [
+            {
+                "description": "Refactor the application to use only functional components",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Implement a consistent use of React.memo and useMemo where appropriate",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Remove all useEffects to prevent re-renders",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Increase the server capacity to manage load",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "26",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "What method is commonly used to fetch data in a React component?",
+        "options": [
+            {
+                "description": "componentDidMount",
+                "isAnswerKey": true
+            },
+            {
+                "description": "componentWillReceiveProps",
+                "isAnswerKey": false
+            },
+            {
+                "description": "render",
+                "isAnswerKey": false
+            },
+            {
+                "description": "getDerivedStateFromProps",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "27",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "Which hook is used to handle side effects in functional components?",
+        "options": [
+            {
+                "description": "useContext",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useState",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useEffect",
+                "isAnswerKey": true
+            },
+            {
+                "description": "useReducer",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "28",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "What is the purpose of the 'key' prop in React?",
+        "options": [
+            {
+                "description": "To uniquely identify DOM nodes",
+                "isAnswerKey": true
+            },
+            {
+                "description": "To pass data between components",
+                "isAnswerKey": false
+            },
+            {
+                "description": "To handle errors in components",
+                "isAnswerKey": false
+            },
+            {
+                "description": "To trigger re-renders",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "29",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "Which of the following is NOT a lifecycle method in class components?",
+        "options": [
+            {
+                "description": "componentDidUpdate",
+                "isAnswerKey": false
+            },
+            {
+                "description": "componentWillUnmount",
+                "isAnswerKey": false
+            },
+            {
+                "description": "componentWasUpdated",
+                "isAnswerKey": true
+            },
+            {
+                "description": "componentWillMount",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "30",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "In React, what is the significance of 'props'?",
+        "options": [
+            {
+                "description": "Props are used to pass state between components",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Props are used to pass data from parent to child components",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Props are used to store component-specific data",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Props are used to manage component lifecycle",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "31",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "Which of the following is a correct way to update state in a React component?",
+        "options": [
+            {
+                "description": "this.state.name = 'John';",
+                "isAnswerKey": false
+            },
+            {
+                "description": "this.setState({ name: 'John' });",
+                "isAnswerKey": true
+            },
+            {
+                "description": "this.updateState({ name: 'John' });",
+                "isAnswerKey": false
+            },
+            {
+                "description": "this.changeState({ name: 'John' });",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "32",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "Consider the following code snippet. What will be logged to the console?\n\n```javascript\nclass MyComponent extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { count: 0 };\n  }\n  increment() {\n    this.setState({ count: this.state.count + 1 });\n  }\n  render() {\n    return (\n      <button onClick={() => this.increment()}>Increment</button>\n    );\n  }\n}\n```\n\nAssuming the button is clicked twice, what will be the value of `count`?",
+        "options": [
+            {
+                "description": "0",
+                "isAnswerKey": false
+            },
+            {
+                "description": "1",
+                "isAnswerKey": false
+            },
+            {
+                "description": "2",
+                "isAnswerKey": true
+            },
+            {
+                "description": "3",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "33",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "Which method can be used to optimize performance in a React application by preventing unnecessary re-renders?",
+        "options": [
+            {
+                "description": "shouldComponentUpdate",
+                "isAnswerKey": true
+            },
+            {
+                "description": "componentWillReceiveProps",
+                "isAnswerKey": false
+            },
+            {
+                "description": "componentDidUpdate",
+                "isAnswerKey": false
+            },
+            {
+                "description": "getSnapshotBeforeUpdate",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "34",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "When using the Context API, which hook allows you to access the nearest value of a specific context?",
+        "options": [
+            {
+                "description": "useMemo",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useReducer",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useContext",
+                "isAnswerKey": true
+            },
+            {
+                "description": "useCallback",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "35",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "In which lifecycle method should API calls be made when using class components?",
+        "options": [
+            {
+                "description": "componentWillMount",
+                "isAnswerKey": false
+            },
+            {
+                "description": "componentDidMount",
+                "isAnswerKey": true
+            },
+            {
+                "description": "componentWillUpdate",
+                "isAnswerKey": false
+            },
+            {
+                "description": "componentWillUnmount",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "36",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "Given the following component, identify the issue:\n\n```javascript\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  useEffect(() => {\n    document.title = `Count: ${count}`;\n  }, [count]);\n\n  function handleClick() {\n    setCount(count + 1);\n  }\n\n  return <button onClick={handleClick}>Increment</button>;\n}\n```\n\nWhat is a potential issue with this component?",
+        "options": [
+            {
+                "description": "The `useEffect` hook has an incorrect dependency array.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The state update function `setCount` is not used correctly.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "No issue, the component works as expected.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The component will not re-render after `count` is updated.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "37",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "How can you improve the performance of the following component?\n\n```javascript\nfunction List({ items }) {\n  return (\n    <ul>\n      {items.map(item => <li key={item.id}>{item.name}</li>)}\n    </ul>\n  );\n}\n```\n\nThe `items` array is large and changes frequently.",
+        "options": [
+            {
+                "description": "Use `React.memo` to memoize the List component.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Remove the `key` prop from the list items.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use `useEffect` to update the list.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Move the `map` function outside the render method.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "38",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "Which of the following is a benefit of using a Higher Order Component (HOC)?",
+        "options": [
+            {
+                "description": "It allows direct manipulation of the DOM.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "It enables reuse of component logic.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "It improves the performance of the component.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "It is a built-in part of the React library.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "39",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "Consider the following code snippet:\n\n```javascript\nfunction App() {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch('/api/data')\n      .then(response => response.json())\n      .then(data => setData(data));\n  }, []);\n\n  if (!data) return <p>Loading...</p>;\n\n  return <div>{data.map(item => <div key={item.id}>{item.name}</div>)}</div>;\n}\n```\n\nWhat will happen if the component unmounts before the data is fetched?",
+        "options": [
+            {
+                "description": "The component will throw an error.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The component will successfully fetch data and then throw a warning/issue.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The component will not fetch data.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The component will fetch data and update the state without any issues.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "40",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "Which of the following hooks is most appropriate for managing complex state logic?",
+        "options": [
+            {
+                "description": "useContext",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useReducer",
+                "isAnswerKey": true
+            },
+            {
+                "description": "useRef",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useMemo",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "41",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "In the following component, identify the potential memory leak issue:\n\n```javascript\nfunction Timer() {\n  useEffect(() => {\n    const intervalId = setInterval(() => {\n      console.log('Tick');\n    }, 1000);\n\n    return () => clearInterval(intervalId);\n  }, []);\n\n  return <div>Timer</div>;\n}\n```\n\nWhat is the issue, if any?",
+        "options": [
+            {
+                "description": "The interval is not being cleared on component unmount.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "There is no issue; the interval is cleared correctly.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The interval should be cleared in a separate cleanup function.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The interval is cleared too early, causing the component to not log 'Tick' anymore.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "42",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "Given the following React component, how can you refactor it to improve performance?\n\n```javascript\nfunction ExpensiveComponent({ value }) {\n  const computeValue = () => {\n    // Some expensive calculation\n    return value * 1000;\n  };\n\n  const computedValue = computeValue();\n\n  return <div>{computedValue}</div>;\n}\n```\n\nWhat is the best approach?",
+        "options": [
+            {
+                "description": "Use `useMemo` to memoize the computed value.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Convert the function to a class component.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use `useEffect` to trigger the calculation.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Store the computed value in component state.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "43",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "How would you refactor the following component to handle asynchronous data fetching without causing React state updates on unmounted components?\n\n```javascript\nfunction DataFetcher() {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch('/api/data')\n      .then(response => response.json())\n      .then(data => setData(data));\n  }, []);\n\n  return <div>{data ? data.name : 'Loading...'}</div>;\n}\n```\n\nWhich modification is most appropriate?",
+        "options": [
+            {
+                "description": "Use a flag to prevent setting state after unmounting.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Switch to a class component and use lifecycle methods.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use `useCallback` for the fetch logic.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Wrap the fetch in a `setTimeout`.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "44",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "In the context of React, what is the main advantage of using a PureComponent?",
+        "options": [
+            {
+                "description": "It automatically handles all state changes.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "It performs a shallow comparison of props and state to prevent unnecessary updates.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "It provides additional lifecycle methods.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "It reduces the size of the component's bundle.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "45",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "Which of the following techniques can be used to optimize the performance of a large list in React?",
+        "options": [
+            {
+                "description": "Use React.memo to memoize the entire list component.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Implementing windowing using libraries like react-window or react-virtualized.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Storing the list in component state.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Using inline styles for list items.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "46",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "In a React application, how can you efficiently manage state across multiple nested components?",
+        "options": [
+            {
+                "description": "Use global variables to store state.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Utilize Context API or state management libraries like Redux.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Pass state down through props to every component.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Store state in a parent component and re-render all children on changes.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "47",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "What is the best practice to avoid prop-drilling in a deeply nested component structure?",
+        "options": [
+            {
+                "description": "Use higher order components to pass props.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Utilize the React Context API.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Pass all props through a top-level wrapper component.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use callback functions to manage props.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "48",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "How can you ensure a component re-renders only when a specific prop changes?",
+        "options": [
+            {
+                "description": "Use shouldComponentUpdate in functional components.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use React.memo with a custom comparator function.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Use useMemo to cache component output.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use useEffect with a dependency array.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "49",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "What is a potential downside of using the Context API for state management?",
+        "options": [
+            {
+                "description": "It does not support server-side rendering.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "It can lead to performance issues if not used carefully due to unnecessary re-renders.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "It requires a lot of boilerplate code.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "It cannot be used with functional components.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "50",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "middle",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "Which pattern allows for injecting dependencies into a React component?",
+        "options": [
+            {
+                "description": "Singleton pattern",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Dependency injection pattern using context or props",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Observer pattern",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Factory pattern",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "51",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "What is the purpose of the 'useState' hook in React?",
+        "options": [
+            {
+                "description": "To manage component state",
+                "isAnswerKey": true
+            },
+            {
+                "description": "To fetch data from APIs",
+                "isAnswerKey": false
+            },
+            {
+                "description": "To apply CSS styles",
+                "isAnswerKey": false
+            },
+            {
+                "description": "To render a component conditionally",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "52",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "Which method would you use to update a component's state in a class component?",
+        "options": [
+            {
+                "description": "componentDidUpdate",
+                "isAnswerKey": false
+            },
+            {
+                "description": "setState",
+                "isAnswerKey": true
+            },
+            {
+                "description": "render",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useReducer",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "53",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "What does JSX stand for?",
+        "options": [
+            {
+                "description": "JavaScript XML",
+                "isAnswerKey": true
+            },
+            {
+                "description": "JavaScript Xtra",
+                "isAnswerKey": false
+            },
+            {
+                "description": "JavaScript Extensions",
+                "isAnswerKey": false
+            },
+            {
+                "description": "JavaScript eXtends",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "54",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "Which of the following is true about React components?",
+        "options": [
+            {
+                "description": "They must be written as class components.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "They can be either class components or function components.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "They do not have a render method.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "They can only use local state.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "55",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "What is the correct way to pass a prop to a React component?",
+        "options": [
+            {
+                "description": "<Component prop='value' />",
+                "isAnswerKey": true
+            },
+            {
+                "description": "<Component.prop('value') />",
+                "isAnswerKey": false
+            },
+            {
+                "description": "<Component>prop='value'</Component>",
+                "isAnswerKey": false
+            },
+            {
+                "description": "<Component {prop: 'value'} />",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "56",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "Consider the following code snippet. What will be the result of the button click?\n\n```jsx\nfunction App() {\n  const [count, setCount] = useState(0);\n  const increment = () => setCount(count + 1);\n  return <button onClick={increment}>Increment</button>;\n}\n```\n",
+        "options": [
+            {
+                "description": "The button will not work because setState is not used.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The count state will increment by 1 each time the button is clicked.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The button will throw an error because count is not initialized.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The count state will decrement by 1 each time the button is clicked.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "57",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "How would you describe the React component lifecycle?",
+        "options": [
+            {
+                "description": "A sequence of methods invoked in different phases of a component's existence.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "A way to permanently store component data.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "A method to define styles for components.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "A JavaScript library to manage state.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "58",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "In which lifecycle method would you make an API request in a class component?",
+        "options": [
+            {
+                "description": "componentDidMount",
+                "isAnswerKey": true
+            },
+            {
+                "description": "componentWillUnmount",
+                "isAnswerKey": false
+            },
+            {
+                "description": "render",
+                "isAnswerKey": false
+            },
+            {
+                "description": "constructor",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "59",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "What is the outcome of this code snippet?\n\n```jsx\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    document.title = `Count: ${count}`;\n  }, [count]);\n  return <button onClick={() => setCount(count + 1)}>Add</button>;\n}\n```\n",
+        "options": [
+            {
+                "description": "The page title updates to show the count value each time the button is clicked.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The page title updates to 'Count: 0' only once.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The page title never updates.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The page title will throw an error.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "60",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "Which hook would you use to perform a clean-up action before a component unmounts?",
+        "options": [
+            {
+                "description": "useEffect",
+                "isAnswerKey": true
+            },
+            {
+                "description": "useState",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useContext",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useReducer",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "61",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "Given the following React component, how would you refactor it to use a pure function component?\n\n```jsx\nclass Welcome extends React.Component {\n  render() {\n    return <h1>Hello, {this.props.name}</h1>;\n  }\n}\n```",
+        "options": [
+            {
+                "description": "function Welcome({ name }) { return <h1>Hello, {name}</h1>; }",
+                "isAnswerKey": true
+            },
+            {
+                "description": "class Welcome extends React.Component { render() { return <h1>Hello, {name}</h1>; } }",
+                "isAnswerKey": false
+            },
+            {
+                "description": "const Welcome = ({ name }) => <h1>Hello, {this.props.name}</h1>;",
+                "isAnswerKey": false
+            },
+            {
+                "description": "function Welcome(name) { return <h1>Hello, {name}</h1>; }",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "62",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "How can you pass a specific value from a parent component to a child component?",
+        "options": [
+            {
+                "description": "Using props",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Using state",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Using context",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Using hooks",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "63",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "Which of the following is a valid way to handle form submission in React?",
+        "options": [
+            {
+                "description": "Using the onSubmit event handler",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Using the onSubmit attribute",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Using the formSubmit event",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Using the submitEvent handler",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "64",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "In React, how would you prevent a component from re-rendering when its parent component re-renders?",
+        "options": [
+            {
+                "description": "Use React.memo()",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Use useEffect()",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use useState()",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use componentDidMount()",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "65",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "What is a key benefit of using controlled components for form inputs in React?",
+        "options": [
+            {
+                "description": "They allow React to control the form input values through state.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "They require less code to implement.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "They automatically reset their values.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "They are easier to style with CSS.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "66",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "Given a component that fetches data on mount, how would you ensure the fetch is canceled if the component unmounts?\n\n```jsx\nuseEffect(() => {\n  const fetchData = async () => {\n    const response = await fetch('https://api.example.com/data');\n    // Handle response\n  };\n  fetchData();\n  return () => {\n    // Cleanup\n  };\n}, []);\n```",
+        "options": [
+            {
+                "description": "Use an AbortController to cancel the fetch in the cleanup function.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Use clearTimeout to cancel fetch.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use a Promise to cancel the fetch.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Fetch cannot be canceled once started.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "67",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "What is the issue in the following code and how can it be resolved?\n\n```jsx\nfunction App() {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    setInterval(() => {\n      setCount(count + 1);\n    }, 1000);\n  }, []);\n  return <div>{count}</div>;\n}\n```",
+        "options": [
+            {
+                "description": "The count will not update correctly; use the functional update form of setState.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "There is no issue; the code works as expected.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The setInterval should be cleared with clearInterval.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The useEffect should not have an empty dependency array.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "68",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "In the following code, what will be logged to the console?\n\n```jsx\nfunction App() {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    console.log('Count:', count);\n  }, [count]);\n  return <button onClick={() => setCount(count + 1)}>Increment</button>;\n}\n```",
+        "options": [
+            {
+                "description": "'Count: 0' initially and then after each click the updated count.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "'Count: 0' only once.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Nothing will be logged to the console.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "'Count: 1' on every render.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "69",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "What would be a potential bug in the following component?\n\n```jsx\nfunction Timer() {\n  const [time, setTime] = useState(0);\n  useEffect(() => {\n    const interval = setInterval(() => {\n      setTime(time + 1);\n    }, 1000);\n    return () => clearInterval(interval);\n  }, []);\n  return <div>{time}</div>;\n}\n```",
+        "options": [
+            {
+                "description": "The time will not increment correctly because the effect does not have the correct dependencies.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The interval is never cleared.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The useEffect is not needed.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "There is no potential bug.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "70",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "How would you optimize the following React component to avoid unnecessary re-renders?\n\n```jsx\nfunction Greeting({ name }) {\n  console.log('Rendering greeting');\n  return <h1>Hello, {name}!</h1>;\n}\n\nfunction App() {\n  const [name, setName] = useState('John');\n  return (\n    <div>\n      <Greeting name={name} />\n      <button onClick={() => setName('John')}>Set Name</button>\n    </div>\n  );\n}\n```",
+        "options": [
+            {
+                "description": "Wrap the Greeting component in React.memo().",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Use useCallback for setName.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Remove useState from App.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Use useEffect in Greeting.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "71",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "What will be the output of the following component when the button is clicked?\n\n```jsx\nfunction App() {\n  const [count, setCount] = useState(0);\n  const increment = () => {\n    setCount(count + 1);\n    setCount(count + 1);\n  };\n  return <button onClick={increment}>Increment</button>;\n}\n```",
+        "options": [
+            {
+                "description": "The count will increase by 1 each click.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The count will increase by 2 each click.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The count will double each click.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The count will not change.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "72",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "What is the key difference between controlled and uncontrolled components?",
+        "options": [
+            {
+                "description": "Controlled components have their state controlled by React, while uncontrolled components manage their own state internally.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Uncontrolled components use useState while controlled components do not.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Controlled components do not require event handlers.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Uncontrolled components cannot be used with forms.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "73",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "What would the following code output?\n\n```jsx\nconst [name, setName] = useState('');\nuseEffect(() => {\n  setName('Alice');\n}, []);\nconsole.log(name);\n```",
+        "options": [
+            {
+                "description": "An empty string initially and then 'Alice' after the first render.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "'Alice' immediately.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The code will throw an error.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "An empty string only.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "74",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "Which hook is used to manage global state across a React application?",
+        "options": [
+            {
+                "description": "useContext",
+                "isAnswerKey": true
+            },
+            {
+                "description": "useReducer",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useEffect",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useState",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "75",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "junior",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "What is the purpose of using keys in a list of React elements?",
+        "options": [
+            {
+                "description": "To help React identify which items have changed, are added, or are removed.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "To loop through elements in React.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "To style each element differently.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "To bind event handlers to elements.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "76",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "Which of the following is a valid way to create a React component?",
+        "options": [
+            {
+                "description": "function MyComponent() { return <div>Hello</div>; }",
+                "isAnswerKey": true
+            },
+            {
+                "description": "function MyComponent() return <div>Hello</div>;",
+                "isAnswerKey": false
+            },
+            {
+                "description": "function MyComponent() { return div>Hello</div>; }",
+                "isAnswerKey": false
+            },
+            {
+                "description": "function MyComponent() { return <div>Hello<; }",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "77",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "In React, what is the correct way to bind a method to a class component?",
+        "options": [
+            {
+                "description": "this.method = this.method.bind(this);",
+                "isAnswerKey": true
+            },
+            {
+                "description": "bind(this.method);",
+                "isAnswerKey": false
+            },
+            {
+                "description": "bind.method(this);",
+                "isAnswerKey": false
+            },
+            {
+                "description": "method.bind(this);",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "78",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "What is the correct syntax to pass a prop named 'title' with value 'Hello' to a component?",
+        "options": [
+            {
+                "description": "<MyComponent title=\"Hello\" />",
+                "isAnswerKey": true
+            },
+            {
+                "description": "<MyComponent title>Hello</MyComponent>",
+                "isAnswerKey": false
+            },
+            {
+                "description": "<MyComponent props={title: 'Hello'} />",
+                "isAnswerKey": false
+            },
+            {
+                "description": "<MyComponent title: Hello />",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "79",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "Which method in React should you override to set the initial state in a class component?",
+        "options": [
+            {
+                "description": "constructor()",
+                "isAnswerKey": true
+            },
+            {
+                "description": "componentDidMount()",
+                "isAnswerKey": false
+            },
+            {
+                "description": "getInitialState()",
+                "isAnswerKey": false
+            },
+            {
+                "description": "componentWillMount()",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "80",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 1,
+        "type": "multiple_choice",
+        "question": "Which of the following is a valid way to import React in a JavaScript file?",
+        "options": [
+            {
+                "description": "import React from 'react';",
+                "isAnswerKey": true
+            },
+            {
+                "description": "require('react');",
+                "isAnswerKey": false
+            },
+            {
+                "description": "import { React } from 'react';",
+                "isAnswerKey": false
+            },
+            {
+                "description": "import react from 'React';",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "81",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "Consider the following code snippet. What will be the output?\n\n```jsx\nconst MyComponent = () => {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    setCount(count + 1);\n  }, []);\n  return <span>{count}</span>;\n};\n```\n",
+        "options": [
+            {
+                "description": "1",
+                "isAnswerKey": true
+            },
+            {
+                "description": "0",
+                "isAnswerKey": false
+            },
+            {
+                "description": "2",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Infinite loop",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "82",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "What will happen if you try to update the state directly in a React component using this.state.count = 1;?",
+        "options": [
+            {
+                "description": "The state will update but the component will not re-render.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The state will update and the component will re-render.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "An error will be thrown.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The component will crash.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "83",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "In the context of React, which of the following is used to pass data to a child component?",
+        "options": [
+            {
+                "description": "Props",
+                "isAnswerKey": true
+            },
+            {
+                "description": "State",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Context",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Lifecycle methods",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "84",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "Which lifecycle method is invoked immediately after a component is added to the DOM tree?",
+        "options": [
+            {
+                "description": "componentDidMount",
+                "isAnswerKey": true
+            },
+            {
+                "description": "componentWillMount",
+                "isAnswerKey": false
+            },
+            {
+                "description": "render",
+                "isAnswerKey": false
+            },
+            {
+                "description": "componentDidUpdate",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "85",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 2,
+        "type": "multiple_choice",
+        "question": "What is the significance of keys in React lists?",
+        "options": [
+            {
+                "description": "Keys help React identify which items have changed, are added, or are removed.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Keys are used to style list items.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Keys are used to bind events to list items.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Keys have no specific significance in React.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "86",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "Given the following code, what will be the output when the button is clicked?\n\n```jsx\nclass Counter extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = { count: 0 };\n  }\n\n  increment = () => {\n    this.setState({ count: this.state.count + 1 });\n  }\n\n  render() {\n    return (\n      <div>\n        <button onClick={this.increment}>Increment</button>\n        <p>{this.state.count}</p>\n      </div>\n    );\n  }\n}\n```\n",
+        "options": [
+            {
+                "description": "1",
+                "isAnswerKey": true
+            },
+            {
+                "description": "0",
+                "isAnswerKey": false
+            },
+            {
+                "description": "2",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Error",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "87",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "Which of the following hooks is used to perform side effects in functional components?",
+        "options": [
+            {
+                "description": "useEffect",
+                "isAnswerKey": true
+            },
+            {
+                "description": "useState",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useReducer",
+                "isAnswerKey": false
+            },
+            {
+                "description": "useRef",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "88",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "In React, what is the purpose of the useState hook?",
+        "options": [
+            {
+                "description": "To manage state in functional components",
+                "isAnswerKey": true
+            },
+            {
+                "description": "To perform side effects in functional components",
+                "isAnswerKey": false
+            },
+            {
+                "description": "To bind methods in class components",
+                "isAnswerKey": false
+            },
+            {
+                "description": "To access DOM elements directly",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "89",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "Consider the following code snippet. What will be the output?\n\n```jsx\nconst MyComponent = () => {\n  const [name, setName] = useState('React');\n  return <button onClick={() => setName('Hello')}>{name}</button>;\n};\n```\n",
+        "options": [
+            {
+                "description": "React",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Hello",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Error",
+                "isAnswerKey": false
+            },
+            {
+                "description": "undefined",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "90",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 3,
+        "type": "multiple_choice",
+        "question": "What is the output of the following code snippet?\n\n```jsx\nfunction App() {\n  const [message, setMessage] = useState('Hi');\n  useEffect(() => {\n    setMessage('Hello');\n  }, []);\n  return <div>{message}</div>;\n}\n```\n",
+        "options": [
+            {
+                "description": "Hello",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Hi",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Error",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Infinite loop",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "91",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "Identify the issue in the following code snippet:\n\n```jsx\nclass MyComponent extends React.Component {\n  state = { count: 0 };\n\n  increment() {\n    this.setState({ count: this.state.count + 1 });\n  }\n\n  render() {\n    return <button onClick={this.increment}>Click</button>;\n  }\n}\n```\n",
+        "options": [
+            {
+                "description": "The increment method is not bound to the component instance.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "State is not initialized correctly.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "setState should be called with a function.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Button does not have a label.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "92",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "Which of the following will cause a component to re-render?",
+        "options": [
+            {
+                "description": "Changing the component's state",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Reading a prop",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Defining a method",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Accessing this.state",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "93",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "What is the issue with the following React component?\n\n```jsx\nfunction Example() {\n  const [count, setCount] = useState(0);\n\n  useEffect(() => {\n    document.title = `Count: ${count}`;\n  });\n\n  return <button onClick={() => setCount(count + 1)}>Increment</button>;\n}\n```\n",
+        "options": [
+            {
+                "description": "The useEffect is missing a dependency array, causing it to run on every render.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The setCount function is not defined properly.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The component should return a div, not a button.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The useEffect hook is not allowed inside functional components.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "94",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "Which statement about React keys is true?",
+        "options": [
+            {
+                "description": "Keys should be unique among siblings.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Keys should be globally unique in the application.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Keys are mandatory for every React element.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Keys should be numeric values.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "95",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 4,
+        "type": "multiple_choice",
+        "question": "What is the problem with the following React component?\n\n```jsx\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  const handleClick = () => {\n    setCount(count + 1);\n    setCount(count + 1);\n  }\n\n  return <button onClick={handleClick}>Increment</button>;\n}\n```\n",
+        "options": [
+            {
+                "description": "The count will only increment by 1 because state updates may be batched.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The count will increment by 2 every time.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The code will throw an error due to multiple setCount calls.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The count will reset to 0 after every click.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "96",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "Predict the output of the following code snippet:\n\n```jsx\nconst App = () => {\n  const [count, setCount] = useState(0);\n\n  useEffect(() => {\n    const timer = setTimeout(() => setCount(count + 1), 1000);\n    return () => clearTimeout(timer);\n  }, [count]);\n\n  return <div>{count}</div>;\n};\n```\n",
+        "options": [
+            {
+                "description": "The count will increment every second.",
+                "isAnswerKey": true
+            },
+            {
+                "description": "The count will remain 0.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The count will be set to 1 and stop.",
+                "isAnswerKey": false
+            },
+            {
+                "description": "The code will throw an error.",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "97",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "What will be the output when the button is clicked twice in the following component?\n\n```jsx\nfunction MyComponent() {\n  const [count, setCount] = useState(0);\n\n  const increment = () => {\n    setCount(prevCount => prevCount + 1);\n    setCount(prevCount => prevCount + 1);\n  }\n\n  return <button onClick={increment}>{count}</button>;\n}\n```\n",
+        "options": [
+            {
+                "description": "2",
+                "isAnswerKey": true
+            },
+            {
+                "description": "1",
+                "isAnswerKey": false
+            },
+            {
+                "description": "3",
+                "isAnswerKey": false
+            },
+            {
+                "description": "4",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "98",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "What is the output of the following code snippet after clicking the button five times?\n\n```jsx\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  const increment = () => {\n    setCount(count + 1);\n  }\n\n  return <button onClick={increment}>{count}</button>;\n}\n```\n",
+        "options": [
+            {
+                "description": "5",
+                "isAnswerKey": true
+            },
+            {
+                "description": "0",
+                "isAnswerKey": false
+            },
+            {
+                "description": "1",
+                "isAnswerKey": false
+            },
+            {
+                "description": "10",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "99",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "What will be rendered by the following React component?\n\n```jsx\nfunction App() {\n  const [value, setValue] = useState('A');\n\n  useEffect(() => {\n    setValue('B');\n  }, []);\n\n  return <div>{value}</div>;\n}\n```\n",
+        "options": [
+            {
+                "description": "B",
+                "isAnswerKey": true
+            },
+            {
+                "description": "A",
+                "isAnswerKey": false
+            },
+            {
+                "description": "AA",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Error",
+                "isAnswerKey": false
+            }
+        ]
+    },
+    {
+        "id": "100",
+        "skill": "react",
+        "category": "framework",
+        "seniority": "fresher",
+        "level": 5,
+        "type": "multiple_choice",
+        "question": "Consider the following React component. What will be the output when it is rendered?\n\n```jsx\nfunction App() {\n  const [text, setText] = useState('Hello');\n\n  useEffect(() => {\n    setText('World');\n  }, []);\n\n  return <h1>{text}</h1>;\n}\n```\n",
+        "options": [
+            {
+                "description": "World",
+                "isAnswerKey": true
+            },
+            {
+                "description": "Hello",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Hello World",
+                "isAnswerKey": false
+            },
+            {
+                "description": "Error",
+                "isAnswerKey": false
+            }
+        ]
+    }
+]
