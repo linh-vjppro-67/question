@@ -6,13 +6,14 @@ import os
 import requests
 import base64
 
-def save_to_github(account, final_result, history):
+def save_to_github(account, final_result, history, failed):
     filename = f"{account}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     file_path = f"results/{filename}"
     
     file_content = {
         "account": account,
         "final_result": final_result,
+        "failed": failed,
         "history": history,
         "timestamp": datetime.now().isoformat()
     }
