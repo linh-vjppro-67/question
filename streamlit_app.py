@@ -3,6 +3,41 @@ import json
 import random
 from datetime import datetime
 import os
+import requests
+import base64
+
+def save_to_github(account, final_result, history):
+    filename = f"{account}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    file_path = f"results/{filename}"
+    
+    file_content = {
+        "account": account,
+        "final_result": final_result,
+        "history": history,
+        "timestamp": datetime.now().isoformat()
+    }
+    
+    content_str = json.dumps(file_content, indent=2, ensure_ascii=False)
+    content_b64 = base64.b64encode(content_str.encode()).decode()
+
+    url = f"https://api.github.com/repos/{st.secrets.github_username}/{st.secrets.github_repo}/contents/{file_path}"
+    
+    headers = {
+        "Authorization": f"Bearer {st.secrets.github_token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    
+    payload = {
+        "message": f"Add result for {account}",
+        "content": content_b64
+    }
+    
+    res = requests.put(url, headers=headers, json=payload)
+    
+    if res.status_code in [200, 201]:
+        st.success(f"💾 Đã lưu kết quả tại `results/{filename}` trên GitHub!")
+    else:
+        st.error(f"❌ Không thể lưu kết quả lên GitHub. Chi tiết: {res.text}")
 
 # === CORE ENGINE ===
 class AdaptiveTestingEngine:
