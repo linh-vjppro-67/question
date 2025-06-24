@@ -621,21 +621,27 @@ elif not st.session_state["session"].is_finished:
     session = st.session_state["session"]
     question = st.session_state["question"]
 
-    level = session.engine.format_level_string(session.current_seniority, session.current_level)
-    st.subheader(f"📌 Câu hỏi mức độ: {level}")
-    st.markdown(f"**❓ {question['question']}**")
+    if question is None:
+        st.warning("⚠️ Không tìm thấy câu hỏi phù hợp với cấp độ hiện tại.")
+        if st.button("🔁 Làm lại"):
+            st.session_state.clear()
+            st.rerun()
+    else:
+        level = session.engine.format_level_string(session.current_seniority, session.current_level)
+        st.subheader(f"📌 Câu hỏi mức độ: {level}")
+        st.markdown(f"**❓ {question['question']}**")
 
-    for i, option in enumerate(question["options"]):
-        if st.button(option["description"], key=f"opt_{i}"):
-            result = session.submit_answer(i)
-            if result.get("answer_history"):
-                st.success("✅ ĐÚNG") if result['answer_history']['is_correct'] else st.error("❌ SAI")
+        for i, option in enumerate(question["options"]):
+            if st.button(option["description"], key=f"opt_{i}"):
+                result = session.submit_answer(i)
+                if result.get("answer_history"):
+                    st.success("✅ ĐÚNG") if result['answer_history']['is_correct'] else st.error("❌ SAI")
 
-            if not result["is_finished"]:
-                st.session_state["question"] = session.get_next_question()
-                st.rerun()
-            else:
-                st.rerun()
+                if not result["is_finished"]:
+                    st.session_state["question"] = session.get_next_question()
+                    st.rerun()
+                else:
+                    st.rerun()
 
 # === Step 3: Show result ===
 elif st.session_state["session"].is_finished:
