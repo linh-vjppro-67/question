@@ -577,6 +577,14 @@ def load_questions():
 
 questions_data = load_questions()
 
+SKILLS = ['html', 'css', 'javascript', 'react', 'github']
+
+if "skills_queue" not in st.session_state:
+    st.session_state["skills_queue"] = SKILLS.copy()
+    st.session_state["current_skill"] = None
+    st.session_state["results_per_skill"] = {}
+
+
 # === Session State ===
 if "session" not in st.session_state:
     st.session_state["session"] = None
@@ -596,8 +604,14 @@ if st.session_state["session"] is None:
             st.warning("❌ Vui lòng nhập tên hoặc email của bạn.")
         else:
             st.session_state["account"] = account
-            engine = AdaptiveTestingEngine(questions_data)
+            current_skill = st.session_state["skills_queue"].pop(0)
+            st.session_state["current_skill"] = current_skill
+            
+            # Lọc câu hỏi theo kỹ năng hiện tại
+            skill_questions = [q for q in questions_data if q["skill"] == current_skill]
+            engine = AdaptiveTestingEngine(skill_questions)
             session = AdaptiveTestSession(engine, start_seniority=seniority)
+            
             st.session_state["session"] = session
             st.session_state["question"] = session.get_next_question()
             st.rerun()
@@ -627,40 +641,43 @@ elif not st.session_state["session"].is_finished:
 elif st.session_state["session"].is_finished:
     result = st.session_state["session"].final_result
     failed = st.session_state["session"].failed
-
-    st.success("🎉 Hoàn thành bài kiểm tra!")
-    st.write(f"🏁 Kết quả cuối cùng: **{result}**")
-
     account = st.session_state.get("account", "").strip()
+    current_skill = st.session_state.get("current_skill")
 
-    if not account:
-        st.warning("⚠️ Không thể lưu kết quả vì bạn chưa nhập tên hoặc email.")
-    elif "result_saved" not in st.session_state:
-        # 📦 Chuẩn bị dữ liệu kết quả
-        final_result = {
-            "account": account,
-            "final_result": result,
-            "failed": failed,
-            "answer_history": st.session_state["session"].answer_history,
-            "datetime": datetime.now().isoformat()
-        }
+    st.success(f"✅ Hoàn thành kỹ năng: **{current_skill.upper()}**")
+    st.write(f"🏁 Kết quả: **{result}**")
 
-        # 💾 Lưu local file
-        try:
-            filepath = save_result_to_file(account, final_result)
-            st.info(f"💾 Kết quả đã được lưu tại: {filepath}")
-        except Exception as e:
-            st.error(f"❌ Lưu file cục bộ thất bại: {e}")
+    st.session_state["results_per_skill"][current_skill] = result
 
-        # ☁️ Lưu lên GitHub nếu cần
-        try:
-            save_to_github(account, result, failed, st.session_state["session"].answer_history)
-        except Exception as e:
-            st.error(f"❌ Lưu kết quả lên GitHub thất bại: {e}")
-
-        st.session_state["result_saved"] = True
-
-    # 🔁 Nút làm lại
-    if st.button("🔄 Làm lại"):
-        st.session_state.clear()
+    if st.session_state["skills_queue"]:  # Còn kỹ năng khác
+        next_skill = st.session_state["skills_queue"].pop(0)
+        st.session_state["current_skill"] = next_skill
+        skill_questions = [q for q in questions_data if q["skill"] == next_skill]
+        engine = AdaptiveTestingEngine(skill_questions)
+        session = AdaptiveTestSession(engine, start_seniority='middle')  # hoặc để người dùng chọn từng lần
+        st.session_state["session"] = session
+        st.session_state["question"] = session.get_next_question()
         st.rerun()
+    else:
+        # Đã hoàn tất tất cả skill
+        st.success("🎉 ĐÃ HOÀN THÀNH TOÀN BỘ CÁC KỸ NĂNG!")
+        st.write("📊 Kết quả tổng hợp:")
+        st.json(st.session_state["results_per_skill"])
+
+        # Lưu toàn bộ kết quả
+        try:
+            save_result_to_file(
+                account,
+                {
+                    "account": account,
+                    "results_per_skill": st.session_state["results_per_skill"],
+                    "datetime": datetime.now().isoformat()
+                }
+            )
+            st.success("💾 Đã lưu kết quả tổng hợp.")
+        except Exception as e:
+            st.error(f"❌ Lỗi khi lưu kết quả: {e}")
+
+        if st.button("🔄 Làm lại"):
+            st.session_state.clear()
+            st.rerun()
