@@ -502,10 +502,10 @@ class AdaptiveTestSession:
 st.set_page_config(page_title="Adaptive Quiz", layout="centered")
 
 st.title("Adaptive Question Demo - FWA.AT")
-st.title("Hệ thống kiểm tra kỹ năng theo năng lực ")
-st.write("Seniority: fresher, junior, middle, senior")
-st.write("Mỗi Seniority có 5 cấp độ từ 1 đến 5, với cấp độ 1 là thấp nhất và 5 là cao nhất.")
-st.write("Ví dụ: fresher cấp độ 1 là F1, junior cấp độ 2 là J2, ...")
+st.header("Hệ thống kiểm tra kỹ năng theo năng lực ")
+st.subheader("Seniority: fresher, junior, middle, senior")
+st.subheader("Mỗi Seniority có 5 cấp độ từ 1 đến 5, với cấp độ 1 là thấp nhất và 5 là cao nhất.")
+st.subheader("Ví dụ: fresher cấp độ 1 là F1, junior cấp độ 2 là J2, ...")
 
 # === Load data ===
 @st.cache_data
