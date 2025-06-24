@@ -5,6 +5,7 @@ from datetime import datetime
 import os
 import requests
 import base64
+from github import Github
 
 def save_to_github(account, final_result, history):
     filename = f"{account}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
@@ -622,16 +623,41 @@ elif not st.session_state["session"].is_finished:
 
 # === Step 3: Show result ===
 elif st.session_state["session"].is_finished:
-    
     result = st.session_state["session"].final_result
     failed = st.session_state["session"].failed
 
-    st.success(f"🎉 Hoàn thành bài kiểm tra!")
+    st.success("🎉 Hoàn thành bài kiểm tra!")
     st.write(f"🏁 Kết quả cuối cùng: **{result}**")
+
+    account = st.session_state.get("account", "").strip()
+
+    if not account:
+        st.warning("⚠️ Không thể lưu kết quả vì bạn chưa nhập tên hoặc email.")
+    elif "result_saved" not in st.session_state:
+        final_result = {
+            "account": account,
+            "final_result": result,
+            "failed": failed,
+            "answer_history": st.session_state["session"].answer_history,
+            "datetime": datetime.now().isoformat()
+        }
+
+        # ✅ Lưu file local
+        filepath = save_result_to_file(account, final_result)
+        st.info(f"💾 Kết quả đã được lưu tại: `{filepath}`")
+
+        # ✅ Lưu lên GitHub (nếu muốn)
+        try:
+            save_to_github(account, result, failed, st.session_state["session"].answer_history)
+        except Exception as e:
+            st.error(f"❌ Lưu kết quả lên GitHub thất bại: {e}")
+
+        st.session_state["result_saved"] = True
 
     if st.button("🔄 Làm lại"):
         st.session_state.clear()
         st.rerun()
+
 
     if "result_saved" not in st.session_state:
         final_result = {
