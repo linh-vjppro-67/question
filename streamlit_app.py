@@ -1,6 +1,8 @@
 import streamlit as st
 import json
 import random
+from datetime import datetime
+import os
 
 # === CORE ENGINE ===
 class AdaptiveTestingEngine:
@@ -504,6 +506,22 @@ class AdaptiveTestSession:
         return self._get_result()
 
 
+def save_result_to_file(account: str, result: dict):
+    # Tạo thư mục nếu chưa tồn tại
+    os.makedirs("results", exist_ok=True)
+
+    # Format tên file: dùng lowercase + không dấu trắng + timestamp để tránh ghi đè
+    clean_account = account.strip().replace(" ", "_").lower()
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{clean_account}_{timestamp}.json"
+    filepath = os.path.join("results", filename)
+
+    # Ghi dữ liệu
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(result, f, indent=2, ensure_ascii=False)
+
+    return filepath
+
 # === STREAMLIT APP ===
 st.set_page_config(page_title="Adaptive Quiz", layout="centered")
 
@@ -525,18 +543,26 @@ questions_data = load_questions()
 if "session" not in st.session_state:
     st.session_state["session"] = None
     st.session_state["question"] = None
+    st.session_state["account"] = ""
 
 # === Step 1: Choose starting seniority ===
 if st.session_state["session"] is None:
+    st.subheader("👤 Nhập tên hoặc email của bạn:")
+    account = st.text_input("Account:", value=st.session_state.get("account", ""), key="account_input")
+
     st.subheader("Chọn cấp độ bắt đầu:")
     seniority = st.selectbox("👉 Chọn:", ['fresher', 'junior', 'middle', 'senior'])
 
     if st.button("🚀 Bắt đầu kiểm tra"):
-        engine = AdaptiveTestingEngine(questions_data)
-        session = AdaptiveTestSession(engine, start_seniority=seniority)
-        st.session_state["session"] = session
-        st.session_state["question"] = session.get_next_question()
-        st.rerun()
+        if not account.strip():
+            st.warning("❌ Vui lòng nhập tên hoặc email của bạn.")
+        else:
+            st.session_state["account"] = account
+            engine = AdaptiveTestingEngine(questions_data)
+            session = AdaptiveTestSession(engine, start_seniority=seniority)
+            st.session_state["session"] = session
+            st.session_state["question"] = session.get_next_question()
+            st.rerun()
 
 # === Step 2: Show question and options ===
 elif not st.session_state["session"].is_finished:
@@ -561,6 +587,7 @@ elif not st.session_state["session"].is_finished:
 
 # === Step 3: Show result ===
 elif st.session_state["session"].is_finished:
+    
     result = st.session_state["session"].final_result
     failed = st.session_state["session"].failed
 
@@ -570,3 +597,16 @@ elif st.session_state["session"].is_finished:
     if st.button("🔄 Làm lại"):
         st.session_state.clear()
         st.rerun()
+
+    if "result_saved" not in st.session_state:
+        final_result = {
+            "account": st.session_state.get("account"),
+            "final_result": result,
+            "failed": failed,
+            "answer_history": st.session_state["session"].answer_history,
+            "datetime": datetime.now().isoformat()
+        }
+
+        filepath = save_result_to_file(st.session_state["account"], final_result)
+        st.session_state["result_saved"] = True
+        st.info(f"💾 Kết quả đã được lưu tại: `{filepath}`")
