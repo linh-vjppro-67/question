@@ -1,0 +1,19 @@
+{
+  "account": "linhtc",
+  "skill": "javascript",
+  "final_result": "LEVELF0",
+  "failed": true,
+  "history": [
+    {
+      "question_id": "628",
+      "selected_index": 2,
+      "is_correct": false
+    },
+    {
+      "question_id": "606",
+      "selected_index": 2,
+      "is_correct": false
+    }
+  ],
+  "timestamp": "2025-06-24T13:20:47.915680"
+}
