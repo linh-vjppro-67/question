@@ -38,7 +38,7 @@ def save_to_github(account, final_result, history, failed):
     res = requests.put(url, headers=headers, json=payload)
     
     if res.status_code in [200, 201]:
-        st.success(f"💾 Đã lưu kết quả tại `results/{filename}`")
+        st.success(f"💾 Đã lưu kết quả tại results/{filename}")
     else:
         st.error(f"❌ Không thể lưu kết quả lên GitHub. Chi tiết: {res.text}")
 
@@ -50,11 +50,11 @@ class AdaptiveTestingEngine:
         self.reverse_map = {v: k for k, v in self.seniority_map.items()}
         self.questions_by_level = {}
         for q in questions_data:
-            key = f"{q['seniority']}_{q['level']}"
+            key = f"{q['skill']}_{q['seniority']}_{q['level']}"
             self.questions_by_level.setdefault(key, []).append(q)
 
-    def get_question(self, seniority, level):
-        key = f"{seniority}_{level}"
+    def get_question(self, skill, seniority, level):
+        key = f"{skill}_{seniority}_{level}"
         return random.choice(self.questions_by_level.get(key, [])) if self.questions_by_level.get(key) else None
 
     def format_level_string(self, seniority, level):
@@ -62,8 +62,9 @@ class AdaptiveTestingEngine:
 
 
 class AdaptiveTestSession:
-    def __init__(self, engine, start_seniority='middle'):
+    def __init__(self, engine, skill, start_seniority='middle'):
         self.engine = engine
+        self.skill = skill
         self.starting_seniority = start_seniority
         self.current_seniority = start_seniority
         self.current_level = 3
@@ -77,7 +78,7 @@ class AdaptiveTestSession:
     def get_next_question(self):
         if self.is_finished:
             return None
-        q = self.engine.get_question(self.current_seniority, self.current_level)
+        q = self.engine.get_question(self.skill, self.current_seniority, self.current_level)
         if q:
             shuffled_q = q.copy()
             shuffled_options = q["options"].copy()
@@ -577,6 +578,14 @@ def load_questions():
 
 questions_data = load_questions()
 
+# === Skill navigation ===
+SKILLS = ['html', 'css', 'javascript', 'react', 'github']
+
+if "skill_index" not in st.session_state:
+    st.session_state["skill_index"] = 0
+
+current_skill = SKILLS[st.session_state["skill_index"]]
+
 # === Session State ===
 if "session" not in st.session_state:
     st.session_state["session"] = None
@@ -623,44 +632,66 @@ elif not st.session_state["session"].is_finished:
             else:
                 st.rerun()
 
-# === Step 3: Show result ===
 elif st.session_state["session"].is_finished:
+    skill = current_skill
     result = st.session_state["session"].final_result
     failed = st.session_state["session"].failed
+    answer_history = st.session_state["session"].answer_history
 
-    st.success("🎉 Hoàn thành bài kiểm tra!")
-    st.write(f"🏁 Kết quả cuối cùng: **{result}**")
+    st.session_state["results_by_skill"] = st.session_state.get("results_by_skill", {})
+    st.session_state["results_by_skill"][skill] = {
+        "final_result": result,
+        "failed": failed,
+        "history": answer_history
+    }
+
+    st.session_state["skill_index"] += 1
+
+    if st.session_state["skill_index"] < len(SKILLS):
+        next_skill = SKILLS[st.session_state["skill_index"]]
+        engine = AdaptiveTestingEngine(questions_data)
+        session = AdaptiveTestSession(engine, skill=next_skill, start_seniority="middle")
+        st.session_state["session"] = session
+        st.session_state["question"] = session.get_next_question()
+        st.rerun()
+    else:
+        # Tất cả skills đã xong
+        st.session_state["final_summary_ready"] = True
+        st.rerun()
+
+# === Step 4: Show final summary & save ===
+if st.session_state.get("final_summary_ready"):
+    st.success("🎉 Đã hoàn thành tất cả các kỹ năng!")
 
     account = st.session_state.get("account", "").strip()
+    results_by_skill = st.session_state.get("results_by_skill", {})
+
+    for skill, data in results_by_skill.items():
+        st.write(f"✅ **{skill.upper()}** → {data['final_result']}")
 
     if not account:
         st.warning("⚠️ Không thể lưu kết quả vì bạn chưa nhập tên hoặc email.")
     elif "result_saved" not in st.session_state:
-        # 📦 Chuẩn bị dữ liệu kết quả
-        final_result = {
+        final_payload = {
             "account": account,
-            "final_result": result,
-            "failed": failed,
-            "answer_history": st.session_state["session"].answer_history,
+            "results_by_skill": results_by_skill,
             "datetime": datetime.now().isoformat()
         }
 
-        # 💾 Lưu local file
         try:
-            filepath = save_result_to_file(account, final_result)
-            # st.info(f"💾 Kết quả đã được lưu tại: `{filepath}`")
+            filepath = save_result_to_file(account, final_payload)
+            st.info(f"💾 Kết quả đã được lưu tại: {filepath}")
         except Exception as e:
             st.error(f"❌ Lưu file cục bộ thất bại: {e}")
 
-        # ☁️ Lưu lên GitHub nếu cần
         try:
-            save_to_github(account, result, failed, st.session_state["session"].answer_history)
+            save_to_github(account, results_by_skill, history=None, failed=False)
         except Exception as e:
             st.error(f"❌ Lưu kết quả lên GitHub thất bại: {e}")
 
         st.session_state["result_saved"] = True
 
-    # 🔁 Nút làm lại
-    if st.button("🔄 Làm lại"):
+    # 🔁 Làm lại từ đầu
+    if st.button("🔄 Làm lại từ đầu"):
         st.session_state.clear()
         st.rerun()
