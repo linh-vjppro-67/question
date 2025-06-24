@@ -1,4 +1,3 @@
-# === IMPORTS ===
 import streamlit as st
 import json
 import random
@@ -7,125 +6,125 @@ import os
 import requests
 import base64
 
-# === CONSTANTS ===
-SKILLS = ['html', 'css', 'javascript', 'react', 'github']
+"""
+Adaptive Skill‑by‑Skill Testing Engine
+-------------------------------------
+This Streamlit application allows the learner to take an adaptive quiz
+*separately* for each skill in the sequence:
+    html → css → javascript → react → github
 
-# === FUNCTIONS ===
-def save_to_github(account, final_result, history, failed):
+For every skill the engine starts at a user‑chosen seniority (fresher / junior /
+middle / senior) and navigates the same five‑question branching tree you
+specified earlier.  After the learner finishes one skill, the app
+immediately moves on to the next until all five skills are completed, then
+shows a summary table of levels reached for every skill.
+
+Results are stored both locally (inside a **results/** folder) and – if
+`st.secrets` are configured – pushed to a GitHub repository.
+"""
+
+###############################################################################
+# -------------------------------  HELPERS  --------------------------------- #
+###############################################################################
+
+def save_to_github(account: str, skill: str, final_result: str, history: list, failed: bool):
+    """Push one result file to GitHub (requires secrets to be set)."""
+
     now_utc = datetime.now(timezone.utc)
     hanoi_time = now_utc.astimezone(timezone(timedelta(hours=7)))
-    filename = f"{account}_{hanoi_time.strftime('%Y%m%d_%H%M%S')}.json"
+    filename = f"{account}_{skill}_{hanoi_time.strftime('%Y%m%d_%H%M%S')}.json"
     file_path = f"results/{filename}"
 
     file_content = {
         "account": account,
+        "skill": skill,
         "final_result": final_result,
         "failed": failed,
         "history": history,
-        "timestamp": datetime.now().isoformat()
+        "timestamp": datetime.now().isoformat(),
     }
 
     content_str = json.dumps(file_content, indent=2, ensure_ascii=False)
     content_b64 = base64.b64encode(content_str.encode()).decode()
 
-    url = f"https://api.github.com/repos/{st.secrets.github_username}/{st.secrets.github_repo}/contents/{file_path}"
+    url = (
+        f"https://api.github.com/repos/{st.secrets.github_username}/"
+        f"{st.secrets.github_repo}/contents/{file_path}"
+    )
+
     headers = {
         "Authorization": f"Bearer {st.secrets.github_token}",
-        "Accept": "application/vnd.github.v3+json"
+        "Accept": "application/vnd.github.v3+json",
     }
-    payload = {
-        "message": f"Add result for {account}",
-        "content": content_b64
-    }
-    res = requests.put(url, headers=headers, json=payload)
-    if res.status_code in [200, 201]:
-        st.success(f"💾 Đã lưu kết quả tại results/{filename}")
-    else:
-        st.error(f"❌ Không thể lưu kết quả lên GitHub. Chi tiết: {res.text}")
 
-def save_result_to_file(account: str, result: dict):
+    payload = {"message": f"Add {skill} result for {account}", "content": content_b64}
+    res = requests.put(url, headers=headers, json=payload)
+
+    if res.status_code in (200, 201):
+        st.success(f"💾 Đã lưu kết quả *{skill}* tại results/{filename}")
+    else:
+        st.error(f"❌ Không thể lưu kết quả *{skill}* lên GitHub. Chi tiết: {res.text}")
+
+
+def save_result_to_file(account: str, skill: str, result: dict) -> str:
+    """Save result JSON to local *results/* folder and return the filepath."""
+
     os.makedirs("results", exist_ok=True)
     clean_account = account.strip().replace(" ", "_").lower()
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"{clean_account}_{timestamp}.json"
+    filename = f"{clean_account}_{skill}_{timestamp}.json"
     filepath = os.path.join("results", filename)
-    with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(result, f, indent=2, ensure_ascii=False)
+
+    with open(filepath, "w", encoding="utf-8") as f_out:
+        json.dump(result, f_out, indent=2, ensure_ascii=False)
+
     return filepath
 
-# === CORE ENGINE ===
+
+###############################################################################
+# ------------------------------  ENGINE  ----------------------------------- #
+###############################################################################
+
 class AdaptiveTestingEngine:
+    """Holds all questions and returns one at random for a given skill/level."""
+
     def __init__(self, questions_data):
-        self.questions_data = questions_data
-        self.seniority_map = {'F': 'fresher', 'J': 'junior', 'M': 'middle', 'S': 'senior'}
-        self.reverse_map = {v: k for k, v in self.seniority_map.items()}
-        self.questions_by_level = {}
+        self.questions_by_key = {}
         for q in questions_data:
-            key = f"{q['seniority']}_{q['level']}"
-            self.questions_by_level.setdefault(key, []).append(q)
+            key = f"{q['skill']}_{q['seniority']}_{q['level']}"
+            self.questions_by_key.setdefault(key, []).append(q)
 
-    def get_question(self, seniority, level):
-        key = f"{seniority}_{level}"
-        return random.choice(self.questions_by_level.get(key, [])) if self.questions_by_level.get(key) else None
+    def get_question(self, skill: str, seniority: str, level: int):
+        key = f"{skill}_{seniority}_{level}"
+        pool = self.questions_by_key.get(key, [])
+        return random.choice(pool) if pool else None
 
-    def format_level_string(self, seniority, level):
-        return f"{self.reverse_map.get(seniority, '?')}{level}"
+    @staticmethod
+    def format_level_string(seniority: str, level: int):
+        reverse_map = {"fresher": "F", "junior": "J", "middle": "M", "senior": "S"}
+        return f"{reverse_map.get(seniority, '?')}{level}"
 
 
 class AdaptiveTestSession:
-    def __init__(self, engine, start_seniority='middle'):
+    """Tracks state for a *single* skill run (max five questions)."""
+
+    def __init__(self, engine: AdaptiveTestingEngine, skill: str, start_seniority="middle"):
         self.engine = engine
+        self.skill = skill
         self.starting_seniority = start_seniority
         self.current_seniority = start_seniority
-        self.current_level = 3
+        self.current_level = 3  # Always start at level 3
         self.answer_history = []
         self.question_history = []
         self.is_finished = False
-        self.final_result = None
-        self.path_state = "initial"
+        self.final_result: str | None = None
         self.failed = False
+        self.path_state = "initial"
 
-    def get_next_question(self):
-        if self.is_finished:
-            return None
-        q = self.engine.get_question(self.current_seniority, self.current_level)
-        if q:
-            shuffled_q = q.copy()
-            shuffled_options = q["options"].copy()
-            random.shuffle(shuffled_options)
-            shuffled_q["options"] = shuffled_options
+    # --------------------------------------------------------------------- #
+    # Core helpers
 
-            self.question_history.append(shuffled_q)
-            return shuffled_q
-        return None
-
-    def submit_answer(self, selected_index):
-        if self.is_finished or not self.question_history:
-            return {"error": "No question"}
-
-        question = self.question_history[-1]
-        is_correct = question['options'][selected_index]['isAnswerKey']
-
-        self.answer_history.append({
-            'question_id': question['id'],
-            'selected_index': selected_index,
-            'is_correct': is_correct
-        })
-
-        # Select appropriate method
-        level = self.starting_seniority
-        if level == 'fresher':
-            return self._update_state_after_answer_fresher(is_correct)
-        elif level == 'junior':
-            return self._update_state_after_answer_junior(is_correct)
-        elif level == 'middle':
-            return self._update_state_after_answer_middle(is_correct)
-        elif level == 'senior':
-            return self._update_state_after_answer_senior(is_correct)
-        else:
-            return {"error": "Invalid seniority"}
-
-    def _finish_test(self, label, failed=False):
+    def _finish_test(self, label: str, failed: bool = False):
         self.is_finished = True
         self.final_result = label
         self.failed = failed
@@ -135,9 +134,54 @@ class AdaptiveTestSession:
             "is_finished": self.is_finished,
             "final_result": self.final_result,
             "failed": self.failed,
-            "answer_history": self.answer_history[-1] if self.answer_history else {}
+            "answer_history": self.answer_history[-1] if self.answer_history else {},
         }
-    
+
+    # --------------------------------------------------------------------- #
+    # Public API used by Streamlit app
+
+    def get_next_question(self):
+        if self.is_finished:
+            return None
+        q = self.engine.get_question(self.skill, self.current_seniority, self.current_level)
+        if q is None:
+            # No question available → abort gracefully
+            self._finish_test("NO_QUESTION_AVAILABLE", failed=True)
+            return None
+
+        shuffled_q = q.copy()
+        shuffled_options = q["options"].copy()
+        random.shuffle(shuffled_options)
+        shuffled_q["options"] = shuffled_options
+        self.question_history.append(shuffled_q)
+        return shuffled_q
+
+    def submit_answer(self, selected_idx: int):
+        if self.is_finished or not self.question_history:
+            return {"error": "No active question"}
+
+        question = self.question_history[-1]
+        correct = question["options"][selected_idx]["isAnswerKey"]
+
+        self.answer_history.append(
+            {
+                "question_id": question["id"],
+                "selected_index": selected_idx,
+                "is_correct": correct,
+            }
+        )
+
+        # Dispatch to the correct branching algorithm
+        if self.starting_seniority == "fresher":
+            return self._update_state_after_answer_fresher(correct)
+        if self.starting_seniority == "junior":
+            return self._update_state_after_answer_junior(correct)
+        if self.starting_seniority == "middle":
+            return self._update_state_after_answer_middle(correct)
+        if self.starting_seniority == "senior":
+            return self._update_state_after_answer_senior(correct)
+        return {"error": "Invalid seniority"}
+
     def _update_state_after_answer_middle(self, is_correct):
 
         if len(self.answer_history) == 1:
@@ -554,91 +598,101 @@ class AdaptiveTestSession:
 
         return self._get_result()
 
+###############################################################################
+# -------------------------  STREAMLIT USER INTERFACE  ---------------------- #
+###############################################################################
 
-def save_result_to_file(account: str, result: dict):
-    # Tạo thư mục nếu chưa tồn tại
-    os.makedirs("results", exist_ok=True)
+SKILLS = ["html", "css", "javascript", "react", "github"]
 
-    # Format tên file: dùng lowercase + không dấu trắng + timestamp để tránh ghi đè
-    clean_account = account.strip().replace(" ", "_").lower()
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"{clean_account}_{timestamp}.json"
-    filepath = os.path.join("results", filename)
+st.set_page_config(page_title="Adaptive Multi‑Skill Quiz", layout="centered")
+st.title("Adaptive Question Demo - FWA.AT (Multi‑Skill)")
 
-    # Ghi dữ liệu
-    with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(result, f, indent=2, ensure_ascii=False)
+# Load questions exactly once -------------------------------------------------
 
-    return filepath
-
-# === STREAMLIT APP ===
-st.set_page_config(page_title="Adaptive Quiz", layout="centered")
-
-st.title("Adaptive Question Demo - FWA.AT")
-st.header("Hệ thống kiểm tra kỹ năng theo năng lực ")
-st.markdown("<span style='color:green; font-weight:bold;'>Seniority: fresher, junior, middle, senior</span>", unsafe_allow_html=True)
-st.markdown("<span style='color:green; font-weight:bold;'>Mỗi Seniority có 5 cấp độ từ 1 đến 5, với cấp độ 1 là thấp nhất và 5 là cao nhất.</span>", unsafe_allow_html=True)
-st.markdown("<span style='color:green; font-weight:bold;'>Ví dụ: fresher cấp độ 1 là F1, junior cấp độ 2 là J2, ...", unsafe_allow_html=True)
-
-# === LOAD DATA ===
 @st.cache_data
 def load_questions():
-    with open("merged_file.json", "r", encoding="utf-8") as f:
-        return json.load(f)
+    with open("merged_file.json", "r", encoding="utf-8") as f_in:
+        return json.load(f_in)
 
-# === STREAMLIT STATE ===
-if "skills_queue" not in st.session_state:
+questions_data = load_questions()
+
+# --------------------------  SESSION STATE SETUP  --------------------------- #
+
+if "initialized" not in st.session_state:
+    st.session_state["initialized"] = True
     st.session_state["skills_queue"] = SKILLS.copy()
-    st.session_state["current_skill"] = st.session_state["skills_queue"].pop(0)
+    st.session_state["current_skill"] = None
     st.session_state["results_per_skill"] = {}
     st.session_state["session"] = None
     st.session_state["question"] = None
     st.session_state["account"] = ""
+    st.session_state["engine"] = AdaptiveTestingEngine(questions_data)
+    st.session_state["result_saved"] = False
 
-questions_data_all = load_questions()
-
-# === UI HEADER ===
-st.set_page_config(page_title="Adaptive Multi-Skill Quiz", layout="centered")
-st.title("🎯 Adaptive Skill Testing - Multi Skill")
-st.markdown("**💡 Skills to be tested:** html, css, javascript, react, github")
+# Move to next skill if needed -----------------------------------------------
+if st.session_state["current_skill"] is None and st.session_state["skills_queue"]:
+    st.session_state["current_skill"] = st.session_state["skills_queue"].pop(0)
 
 current_skill = st.session_state["current_skill"]
-st.subheader(f"🔧 Đang kiểm tra kỹ năng: {current_skill.upper()}")
 
-questions_data = [q for q in questions_data_all if q['skill'] == current_skill]
+# --------------------------------------------------------------------------- #
+#  STEP 1 – Start a session for the current skill
+# --------------------------------------------------------------------------- #
 
-# === ACCOUNT INPUT ===
 if st.session_state["session"] is None:
-    st.subheader("👤 Nhập tên hoặc email của bạn:")
-    account = st.text_input("Account:", value=st.session_state.get("account", ""), key="account_input")
-    st.subheader("Chọn cấp độ bắt đầu:")
-    seniority = st.selectbox("👉 Chọn:", ['fresher', 'junior', 'middle', 'senior'])
+    st.header(f"🛠️ Kỹ năng hiện tại: **{current_skill.upper()}**")
 
-    if st.button("🚀 Bắt đầu kiểm tra"):
+    # Account (ask only once, keep across skills)
+    account = st.text_input(
+        "👤 Nhập tên hoặc email của bạn:",
+        value=st.session_state["account"],
+        key="account_input",
+    )
+
+    # Choose starting seniority for *this* skill
+    seniority = st.selectbox(
+        "Chọn cấp độ bắt đầu:",
+        ["fresher", "junior", "middle", "senior"],
+        key="seniority_select",
+    )
+
+    if st.button("🚀 Bắt đầu kiểm tra", key="start_btn"):
         if not account.strip():
             st.warning("❌ Vui lòng nhập tên hoặc email của bạn.")
         else:
-            st.session_state["account"] = account
-            engine = AdaptiveTestingEngine(questions_data)
-            session = AdaptiveTestSession(engine, start_seniority=seniority)
+            st.session_state["account"] = account.strip()
+            session = AdaptiveTestSession(
+                engine=st.session_state["engine"],
+                skill=current_skill,
+                start_seniority=seniority,
+            )
             st.session_state["session"] = session
             st.session_state["question"] = session.get_next_question()
             st.rerun()
 
-# === SHOW QUESTION ===
+# --------------------------------------------------------------------------- #
+#  STEP 2 – Display question & accept answer
+# --------------------------------------------------------------------------- #
+
 elif not st.session_state["session"].is_finished:
-    session = st.session_state["session"]
+    session: AdaptiveTestSession = st.session_state["session"]
     question = st.session_state["question"]
 
-    level = session.engine.format_level_string(session.current_seniority, session.current_level)
-    st.subheader(f"📌 Câu hỏi mức độ: {level}")
+    level_str = AdaptiveTestingEngine.format_level_string(
+        session.current_seniority, session.current_level
+    )
+
+    st.subheader(f"📌 Câu hỏi mức độ: {level_str} ({current_skill})")
     st.markdown(f"**❓ {question['question']}**")
 
-    for i, option in enumerate(question["options"]):
-        if st.button(option["description"], key=f"opt_{i}"):
-            result = session.submit_answer(i)
+    for idx, option in enumerate(question["options"]):
+        if st.button(option["description"], key=f"opt_{idx}"):
+            result = session.submit_answer(idx)
             if result.get("answer_history"):
-                st.success("✅ ĐÚNG") if result['answer_history']['is_correct'] else st.error("❌ SAI")
+                if result["answer_history"]["is_correct"]:
+                    st.success("✅ ĐÚNG")
+                else:
+                    st.error("❌ SAI")
 
             if not result["is_finished"]:
                 st.session_state["question"] = session.get_next_question()
@@ -646,58 +700,59 @@ elif not st.session_state["session"].is_finished:
             else:
                 st.rerun()
 
-# === SHOW RESULT AND MOVE TO NEXT SKILL ===
-elif st.session_state["session"].is_finished:
-    result = st.session_state["session"].final_result
-    failed = st.session_state["session"].failed
-    account = st.session_state["account"]
+# --------------------------------------------------------------------------- #
+#  STEP 3 – Session finished (save + move on / summary)
+# --------------------------------------------------------------------------- #
 
-    st.success("🎉 Hoàn thành kỹ năng!")
-    st.write(f"🏁 Kết quả kỹ năng {current_skill.upper()}: **{result}**")
+else:
+    session: AdaptiveTestSession = st.session_state["session"]
+    result_label = session.final_result
+    failed_flag = session.failed
 
-    st.session_state["results_per_skill"][current_skill] = result
+    st.success("🎉 Hoàn thành bài kiểm tra cho kỹ năng này!")
+    st.write(f"🏁 Kết quả **{current_skill.upper()}**: **{result_label}**")
 
-    if "result_saved" not in st.session_state:
-        final_result = {
+    # Save only once per skill ---------------------------------------------
+    if not st.session_state["result_saved"]:
+        account = st.session_state["account"]
+        final_result_dict = {
             "account": account,
             "skill": current_skill,
-            "final_result": result,
-            "failed": failed,
-            "answer_history": st.session_state["session"].answer_history,
-            "datetime": datetime.now().isoformat()
+            "final_result": result_label,
+            "failed": failed_flag,
+            "answer_history": session.answer_history,
+            "datetime": datetime.now().isoformat(),
         }
 
         try:
-            filepath = save_result_to_file(account, final_result)
-            st.info(f"💾 Đã lưu cục bộ tại: {filepath}")
+            local_path = save_result_to_file(account, current_skill, final_result_dict)
+            st.info(f"💾 Đã lưu file cục bộ: {local_path}")
         except Exception as e:
-            st.error(f"❌ Lỗi khi lưu file cục bộ: {e}")
+            st.error(f"❌ Lưu file cục bộ thất bại: {e}")
 
         try:
-            save_to_github(account, result, st.session_state["session"].answer_history, failed)
+            save_to_github(account, current_skill, result_label, session.answer_history, failed_flag)
         except Exception as e:
-            st.error(f"❌ Lỗi khi lưu GitHub: {e}")
+            st.error(f"❌ Lưu GitHub thất bại: {e}")
 
+        st.session_state["results_per_skill"][current_skill] = result_label
         st.session_state["result_saved"] = True
 
-    # Tiếp tục skill kế
-    if st.button("➡️ Tiếp tục kỹ năng tiếp theo"):
-        if st.session_state["skills_queue"]:
-            st.session_state["current_skill"] = st.session_state["skills_queue"].pop(0)
+    # Continue or finish ----------------------------------------------------
+    if st.session_state["skills_queue"]:
+        if st.button("➡️ Tiếp tục kỹ năng kế tiếp", key="next_skill_btn"):
+            # Reset per‑skill state, keep account & summary
             st.session_state["session"] = None
             st.session_state["question"] = None
-            st.session_state.pop("result_saved", None)
+            st.session_state["result_saved"] = False
+            st.session_state["current_skill"] = None  # Trigger pop in next cycle
             st.rerun()
-        else:
-            st.session_state["finished_all"] = True
+    else:
+        st.header("📊 Tổng hợp kết quả tất cả kỹ năng")
+        st.table(st.session_state["results_per_skill"])
+
+        # Optionally allow restart ------------------------------------------------
+        if st.button("🔄 Làm lại từ đầu", key="restart_all"):
+            for key in list(st.session_state.keys()):
+                del st.session_state[key]
             st.rerun()
-
-# === FINAL SUMMARY ===
-if st.session_state.get("finished_all"):
-    st.title("📊 TỔNG KẾT TOÀN BỘ KỸ NĂNG")
-    for skill, level in st.session_state["results_per_skill"].items():
-        st.write(f"✅ {skill.upper()}: {level}")
-
-    if st.button("🔁 Làm lại toàn bộ"):
-        st.session_state.clear()
-        st.rerun()
