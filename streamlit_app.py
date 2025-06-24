@@ -6,23 +6,6 @@ import os
 import requests
 import base64
 
-"""
-Adaptive Skill‑by‑Skill Testing Engine
--------------------------------------
-This Streamlit application allows the learner to take an adaptive quiz
-*separately* for each skill in the sequence:
-    html → css → javascript → react → github
-
-For every skill the engine starts at a user‑chosen seniority (fresher / junior /
-middle / senior) and navigates the same five‑question branching tree you
-specified earlier.  After the learner finishes one skill, the app
-immediately moves on to the next until all five skills are completed, then
-shows a summary table of levels reached for every skill.
-
-Results are stored both locally (inside a **results/** folder) and – if
-`st.secrets` are configured – pushed to a GitHub repository.
-"""
-
 ###############################################################################
 # -------------------------------  HELPERS  --------------------------------- #
 ###############################################################################
