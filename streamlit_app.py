@@ -712,7 +712,7 @@ else:
 
         try:
             local_path = save_result_to_file(account, current_skill, final_result_dict)
-            st.info(f"💾 Đã lưu file cục bộ: {local_path}")
+            # st.info(f"💾 Đã lưu file cục bộ: {local_path}")
         except Exception as e:
             st.error(f"❌ Lưu file cục bộ thất bại: {e}")
 
