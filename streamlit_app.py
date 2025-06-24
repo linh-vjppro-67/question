@@ -61,11 +61,11 @@ class AdaptiveTestingEngine:
         self.reverse_map = {v: k for k, v in self.seniority_map.items()}
         self.questions_by_level = {}
         for q in questions_data:
-            key = f"{q['skill']}_{q['seniority']}_{q['level']}"
+            key = f"{q['seniority']}_{q['level']}"
             self.questions_by_level.setdefault(key, []).append(q)
 
-    def get_question(self, skill, seniority, level):
-        key = f"{skill}_{seniority}_{level}"
+    def get_question(self, seniority, level):
+        key = f"{seniority}_{level}"
         return random.choice(self.questions_by_level.get(key, [])) if self.questions_by_level.get(key) else None
 
     def format_level_string(self, seniority, level):
@@ -73,9 +73,8 @@ class AdaptiveTestingEngine:
 
 
 class AdaptiveTestSession:
-    def __init__(self, engine, skill, start_seniority='middle'):
+    def __init__(self, engine, start_seniority='middle'):
         self.engine = engine
-        self.skill = skill
         self.starting_seniority = start_seniority
         self.current_seniority = start_seniority
         self.current_level = 3
@@ -89,7 +88,7 @@ class AdaptiveTestSession:
     def get_next_question(self):
         if self.is_finished:
             return None
-        q = self.engine.get_question(self.skill, self.current_seniority, self.current_level)
+        q = self.engine.get_question(self.current_seniority, self.current_level)
         if q:
             shuffled_q = q.copy()
             shuffled_options = q["options"].copy()
@@ -138,7 +137,7 @@ class AdaptiveTestSession:
             "failed": self.failed,
             "answer_history": self.answer_history[-1] if self.answer_history else {}
         }
-
+    
     def _update_state_after_answer_middle(self, is_correct):
 
         if len(self.answer_history) == 1:
@@ -555,6 +554,31 @@ class AdaptiveTestSession:
 
         return self._get_result()
 
+
+def save_result_to_file(account: str, result: dict):
+    # Tạo thư mục nếu chưa tồn tại
+    os.makedirs("results", exist_ok=True)
+
+    # Format tên file: dùng lowercase + không dấu trắng + timestamp để tránh ghi đè
+    clean_account = account.strip().replace(" ", "_").lower()
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{clean_account}_{timestamp}.json"
+    filepath = os.path.join("results", filename)
+
+    # Ghi dữ liệu
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(result, f, indent=2, ensure_ascii=False)
+
+    return filepath
+
+# === STREAMLIT APP ===
+st.set_page_config(page_title="Adaptive Quiz", layout="centered")
+
+st.title("Adaptive Question Demo - FWA.AT")
+st.header("Hệ thống kiểm tra kỹ năng theo năng lực ")
+st.markdown("<span style='color:green; font-weight:bold;'>Seniority: fresher, junior, middle, senior</span>", unsafe_allow_html=True)
+st.markdown("<span style='color:green; font-weight:bold;'>Mỗi Seniority có 5 cấp độ từ 1 đến 5, với cấp độ 1 là thấp nhất và 5 là cao nhất.</span>", unsafe_allow_html=True)
+st.markdown("<span style='color:green; font-weight:bold;'>Ví dụ: fresher cấp độ 1 là F1, junior cấp độ 2 là J2, ...", unsafe_allow_html=True)
 
 # === LOAD DATA ===
 @st.cache_data
