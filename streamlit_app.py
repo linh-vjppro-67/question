@@ -1,13 +1,15 @@
 import streamlit as st
 import json
 import random
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 import os
 import requests
 import base64
 
 def save_to_github(account, final_result, history, failed):
-    filename = f"{account}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    now_utc = datetime.now(timezone.utc)
+    hanoi_time = now_utc.astimezone(timezone(timedelta(hours=7)))
+    filename = f"{account}_{hanoi_time.strftime('%Y%m%d_%H%M%S')}.json"
     file_path = f"results/{filename}"
     
     file_content = {
@@ -36,7 +38,7 @@ def save_to_github(account, final_result, history, failed):
     res = requests.put(url, headers=headers, json=payload)
     
     if res.status_code in [200, 201]:
-        st.success(f"💾 Đã lưu kết quả tại `results/{filename}` trên GitHub!")
+        st.success(f"💾 Đã lưu kết quả tại `results/{filename}`")
     else:
         st.error(f"❌ Không thể lưu kết quả lên GitHub. Chi tiết: {res.text}")
 
