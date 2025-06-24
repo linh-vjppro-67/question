@@ -634,6 +634,7 @@ elif st.session_state["session"].is_finished:
     if not account:
         st.warning("⚠️ Không thể lưu kết quả vì bạn chưa nhập tên hoặc email.")
     elif "result_saved" not in st.session_state:
+        # 📦 Chuẩn bị dữ liệu kết quả
         final_result = {
             "account": account,
             "final_result": result,
@@ -642,11 +643,14 @@ elif st.session_state["session"].is_finished:
             "datetime": datetime.now().isoformat()
         }
 
-        # ✅ Lưu file local
-        filepath = save_result_to_file(account, final_result)
-        st.info(f"💾 Kết quả đã được lưu tại: `{filepath}`")
+        # 💾 Lưu local file
+        try:
+            filepath = save_result_to_file(account, final_result)
+            st.info(f"💾 Kết quả đã được lưu tại: `{filepath}`")
+        except Exception as e:
+            st.error(f"❌ Lưu file cục bộ thất bại: {e}")
 
-        # ✅ Lưu lên GitHub (nếu muốn)
+        # ☁️ Lưu lên GitHub nếu cần
         try:
             save_to_github(account, result, failed, st.session_state["session"].answer_history)
         except Exception as e:
@@ -654,20 +658,7 @@ elif st.session_state["session"].is_finished:
 
         st.session_state["result_saved"] = True
 
+    # 🔁 Nút làm lại
     if st.button("🔄 Làm lại"):
         st.session_state.clear()
         st.rerun()
-
-
-    if "result_saved" not in st.session_state:
-        final_result = {
-            "account": st.session_state.get("account"),
-            "final_result": result,
-            "failed": failed,
-            "answer_history": st.session_state["session"].answer_history,
-            "datetime": datetime.now().isoformat()
-        }
-
-        filepath = save_result_to_file(st.session_state["account"], final_result)
-        st.session_state["result_saved"] = True
-        st.info(f"💾 Kết quả đã được lưu tại: `{filepath}`")
