@@ -1,0 +1,24 @@
+{
+  "account": "linhtc",
+  "skill": "react",
+  "final_result": "LEVELF3",
+  "failed": false,
+  "history": [
+    {
+      "question_id": "21",
+      "selected_index": 0,
+      "is_correct": true
+    },
+    {
+      "question_id": "41",
+      "selected_index": 2,
+      "is_correct": false
+    },
+    {
+      "question_id": "38",
+      "selected_index": 2,
+      "is_correct": false
+    }
+  ],
+  "timestamp": "2025-06-24T13:20:56.866998"
+}
