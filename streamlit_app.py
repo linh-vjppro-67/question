@@ -5,7 +5,6 @@ from datetime import datetime
 import os
 import requests
 import base64
-from github import Github
 
 def save_to_github(account, final_result, history):
     filename = f"{account}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
