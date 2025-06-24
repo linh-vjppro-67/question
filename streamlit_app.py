@@ -39,7 +39,6 @@ class AdaptiveTestSession:
             return None
         q = self.engine.get_question(self.current_seniority, self.current_level)
         if q:
-            # Tạo bản sao để không làm thay đổi thứ tự gốc
             shuffled_q = q.copy()
             shuffled_options = q["options"].copy()
             random.shuffle(shuffled_options)
