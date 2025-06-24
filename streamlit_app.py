@@ -39,8 +39,15 @@ class AdaptiveTestSession:
             return None
         q = self.engine.get_question(self.current_seniority, self.current_level)
         if q:
-            self.question_history.append(q)
-        return q
+            # Tạo bản sao để không làm thay đổi thứ tự gốc
+            shuffled_q = q.copy()
+            shuffled_options = q["options"].copy()
+            random.shuffle(shuffled_options)
+            shuffled_q["options"] = shuffled_options
+
+            self.question_history.append(shuffled_q)
+            return shuffled_q
+        return None
 
     def submit_answer(self, selected_index):
         if self.is_finished or not self.question_history:
