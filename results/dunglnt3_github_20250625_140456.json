@@ -1,0 +1,19 @@
+{
+  "account": "dunglnt3",
+  "skill": "github",
+  "final_result": "LEVELS5",
+  "failed": false,
+  "history": [
+    {
+      "question_id": "975",
+      "selected_index": 0,
+      "is_correct": true
+    },
+    {
+      "question_id": "998",
+      "selected_index": 2,
+      "is_correct": true
+    }
+  ],
+  "timestamp": "2025-06-25T07:04:56.771508"
+}
