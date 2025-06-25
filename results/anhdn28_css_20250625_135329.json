@@ -1,0 +1,34 @@
+{
+  "account": "anhdn28",
+  "skill": "css",
+  "final_result": "LEVELJ4",
+  "failed": false,
+  "history": [
+    {
+      "question_id": "424",
+      "selected_index": 0,
+      "is_correct": true
+    },
+    {
+      "question_id": "442",
+      "selected_index": 1,
+      "is_correct": true
+    },
+    {
+      "question_id": "476",
+      "selected_index": 1,
+      "is_correct": true
+    },
+    {
+      "question_id": "497",
+      "selected_index": 2,
+      "is_correct": false
+    },
+    {
+      "question_id": "483",
+      "selected_index": 1,
+      "is_correct": true
+    }
+  ],
+  "timestamp": "2025-06-25T06:53:29.744159"
+}
